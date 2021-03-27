@@ -1,4 +1,4 @@
-package com.example.projeto;
+package com.example.projeto.task;
 
 import com.example.projeto.builder.ArquivoReceitaBuilder;
 import com.example.projeto.model.ContaReceita;
@@ -38,9 +38,7 @@ public class TarefaLeituraArquivoReceita {
         log.info(messageSource.getMessage("log.arquivo.conta.envio.finalizado", null, Locale.getDefault()));
 
         String caminhoArquivoEscrita = messageSource.getMessage("arquivo.caminho.escrita", null, Locale.getDefault());
-        log.info(messageSource.getMessage("log.arquivo.escrita.inicio", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
         arquivoBuilder.gravaContasArquivo(caminhoArquivoEscrita, contas);
-        log.info(messageSource.getMessage("log.arquivo.escrita.fim", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
 
     }
 }

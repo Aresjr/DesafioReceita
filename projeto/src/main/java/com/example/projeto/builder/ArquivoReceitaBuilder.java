@@ -22,6 +22,7 @@ public class ArquivoReceitaBuilder implements ArquivoBuilderInterface {
         this.messageSource = messageSource;
     }
 
+    @Override
     public List<ContaReceita> trazContasArquivo(String caminhoArquivoLeitura) {
         List<ContaReceita> contasReceita = new ArrayList<>();
         CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
@@ -78,8 +79,7 @@ public class ArquivoReceitaBuilder implements ArquivoBuilderInterface {
         try {
             FileOutputStream fos = new FileOutputStream(caminhoArquivoEscrita);
             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-            writer = new CSVWriter(osw);
-
+            writer = new CSVWriter(osw, ';', CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
             List<String[]> linhas = new ArrayList<>();
             linhas.add(ContaReceita.getHeader());
 
@@ -88,8 +88,9 @@ public class ArquivoReceitaBuilder implements ArquivoBuilderInterface {
             }
 
             writer.writeAll(linhas, false);
+            log.info(messageSource.getMessage("log.arquivo.escrita.fim", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
         } catch (FileNotFoundException e) {
-            log.error(messageSource.getMessage("log.arquivo.nao.encontrado", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
+            log.error(messageSource.getMessage("log.arquivo.nao.criado", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
         } finally {
             if(writer != null){
                 try {

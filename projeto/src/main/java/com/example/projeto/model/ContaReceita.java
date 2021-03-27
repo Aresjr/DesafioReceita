@@ -70,7 +70,7 @@ public class ContaReceita implements ImportavelCsv {
     }
 
     public String[] toArray(){
-        return new String[]{agencia, conta, saldo.toString(), status.toString(), resultado ? "1" : "0"};
+        return new String[]{agencia, conta, String.format("%.02f", saldo).replace('.', ','), status.toString(), resultado ? "1" : "0"};
     }
 
     public static String[] getHeader(){
