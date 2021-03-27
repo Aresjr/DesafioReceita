@@ -1,12 +1,17 @@
 # Desafio Receita
 
-## Compilação e uso
-```mvn clean install```
-- Irá baixar as dependências do Maven e gerar o arquivo jar "DesafioReceita\projeto\target\DesafioReceita-0.0.1-SNAPSHOT.jar"
-- Pode ser executado como serviço "standalone" com ```java -jar DesafioReceita-0.0.1-SNAPSHOT.jar```
-
-## Arquivo de leitura
-Projeto configurado para a leitura do arquivo no caminho C:\receita\arquivo.csv para que funcione independente da execução do projeto sendo pela IDE ou pelo jar gerado, caso necessite a alteração do caminho, pode ser alterado no arquivo ```messages.properties```
+## Compilação e Utilização
+```
+mvn clean install
+java -jar DesafioReceita-0.0.1-SNAPSHOT.jar
+```
 
 ## Testes Unitários
 ```mvn test```
+
+## Funcionamento
+Projeto criado como um serviço agendado para rodar a cada 10 segundos, configurado para a leitura do arquivo no caminho *C:\receita\arquivo.csv*, o envio fake para a receita e a geração do arquivo novo com o resultado.
+
+Qualquer alteração no arquivo de leitura afetará a próxima execução da tarefa, o que ajuda nos testes em tempo real.
+
+O caminho do arquivo pode ser alterado no arquivo ```messages.properties```, propriedade ```arquivo.caminho.leitura``` e o tempo de espera entre as execuções no arquivo ```application.properties```, propriedade ```application.properties.tempo.leitura```
