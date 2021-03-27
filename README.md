@@ -1,10 +1,8 @@
 # Desafio Receita
 
 ## Compilação e uso
-```
-mvn clean install
-```
-- Já irá baixar as dependências do Maven e gerar o arquivo jar "DesafioReceita\projeto\target\DesafioReceita-0.0.1-SNAPSHOT.jar"
+```mvn clean install```
+- Irá baixar as dependências do Maven e gerar o arquivo jar "DesafioReceita\projeto\target\DesafioReceita-0.0.1-SNAPSHOT.jar"
 - Pode ser executado como serviço "standalone" com ```java -jar DesafioReceita-0.0.1-SNAPSHOT.jar```
 
 ## Arquivo de leitura
