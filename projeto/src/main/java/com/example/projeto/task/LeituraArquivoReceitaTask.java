@@ -29,23 +29,26 @@ public class LeituraArquivoReceitaTask {
 
         String caminhoArquivoLeitura = messageSource.getMessage("arquivo.caminho.leitura", null, Locale.getDefault());
         ArquivoReceitaBuilder arquivoBuilder = new ArquivoReceitaBuilder(messageSource);
-        List<ContaReceita> contas = arquivoBuilder.trazContasArquivo(caminhoArquivoLeitura);
 
-        log.info(messageSource.getMessage("log.arquivo.iniciando.envio", null, Locale.getDefault()));
-        for(ContaReceita conta : contas){
-            receitaService.atualizarConta(conta);
-            log.info(messageSource.getMessage("log.arquivo.conta.conteudo", new String[]{conta.toString()}, Locale.getDefault()));
-        }
-        log.info(messageSource.getMessage("log.arquivo.conta.envio.finalizado", null, Locale.getDefault()));
-
-
-        String caminhoArquivoEscrita = messageSource.getMessage("arquivo.caminho.escrita", null, Locale.getDefault());
         try {
-            arquivoBuilder.gravaContasArquivo(caminhoArquivoEscrita, contas);
-            log.info(messageSource.getMessage("log.arquivo.escrita.fim", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
-        } catch (IOException e) {
-            log.error(messageSource.getMessage("log.arquivo.nao.criado", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
-        }
+            List<ContaReceita> contas = arquivoBuilder.trazContasArquivo(caminhoArquivoLeitura);
+            log.info(messageSource.getMessage("log.arquivo.iniciando.envio", null, Locale.getDefault()));
+            for(ContaReceita conta : contas){
+                receitaService.atualizarConta(conta);
+                log.info(messageSource.getMessage("log.arquivo.conta.conteudo", new String[]{conta.toString()}, Locale.getDefault()));
+            }
+            log.info(messageSource.getMessage("log.arquivo.conta.envio.finalizado", null, Locale.getDefault()));
+            String caminhoArquivoEscrita = messageSource.getMessage("arquivo.caminho.escrita", null, Locale.getDefault());
 
+            try {
+                arquivoBuilder.gravaContasArquivo(caminhoArquivoEscrita, contas);
+                log.info(messageSource.getMessage("log.arquivo.escrita.fim", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
+            } catch (IOException e) {
+                log.error(messageSource.getMessage("log.arquivo.nao.criado", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
+            }
+
+        } catch (IOException e) {
+            log.error(messageSource.getMessage("log.arquivo.impossivel.ler", new String[]{caminhoArquivoLeitura}, Locale.getDefault()));
+        }
     }
 }
