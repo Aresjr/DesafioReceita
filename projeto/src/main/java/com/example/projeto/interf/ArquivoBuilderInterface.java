@@ -2,9 +2,10 @@ package com.example.projeto.interf;
 
 import com.example.projeto.model.ContaReceita;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ArquivoBuilderInterface {
     List<ContaReceita> trazContasArquivo(String caminhoArquivoLeitura);
-    void gravaContasArquivo(String caminhoArquivoEscrita, List<ContaReceita> contas);
+    void gravaContasArquivo(String caminhoArquivoEscrita, List<ContaReceita> contas) throws IOException;
 }

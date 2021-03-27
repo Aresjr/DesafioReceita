@@ -73,32 +73,19 @@ public class ArquivoReceitaBuilder implements ArquivoBuilderInterface {
     }
 
     @Override
-    public void gravaContasArquivo(String caminhoArquivoEscrita, List<ContaReceita> contas) {
+    public void gravaContasArquivo(String caminhoArquivoEscrita, List<ContaReceita> contas) throws IOException {
+        FileOutputStream fos = new FileOutputStream(caminhoArquivoEscrita);
+        OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+        CSVWriter writer = new CSVWriter(osw, ';', CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+        List<String[]> linhas = new ArrayList<>();
+        linhas.add(ContaReceita.getHeader());
 
-        CSVWriter writer = null;
-        try {
-            FileOutputStream fos = new FileOutputStream(caminhoArquivoEscrita);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-            writer = new CSVWriter(osw, ';', CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
-            List<String[]> linhas = new ArrayList<>();
-            linhas.add(ContaReceita.getHeader());
-
-            for(ContaReceita conta : contas){
-                linhas.add(conta.toArray());
-            }
-
-            writer.writeAll(linhas, false);
-            log.info(messageSource.getMessage("log.arquivo.escrita.fim", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
-        } catch (FileNotFoundException e) {
-            log.error(messageSource.getMessage("log.arquivo.nao.criado", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
-        } finally {
-            if(writer != null){
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        for(ContaReceita conta : contas){
+            linhas.add(conta.toArray());
         }
+
+        writer.writeAll(linhas, false);
+        log.info(messageSource.getMessage("log.arquivo.escrita.fim", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
+        writer.close();
     }
 }

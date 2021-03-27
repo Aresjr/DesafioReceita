@@ -10,12 +10,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 @Component
-public class TarefaLeituraArquivoReceita {
-    private static final Logger log = LoggerFactory.getLogger(TarefaLeituraArquivoReceita.class);
+public class LeituraArquivoReceitaTask {
+    private static final Logger log = LoggerFactory.getLogger(LeituraArquivoReceitaTask.class);
 
     @Autowired
     private ReceitaService receitaService;
@@ -37,8 +38,14 @@ public class TarefaLeituraArquivoReceita {
         }
         log.info(messageSource.getMessage("log.arquivo.conta.envio.finalizado", null, Locale.getDefault()));
 
+
         String caminhoArquivoEscrita = messageSource.getMessage("arquivo.caminho.escrita", null, Locale.getDefault());
-        arquivoBuilder.gravaContasArquivo(caminhoArquivoEscrita, contas);
+        try {
+            arquivoBuilder.gravaContasArquivo(caminhoArquivoEscrita, contas);
+            log.info(messageSource.getMessage("log.arquivo.escrita.fim", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
+        } catch (IOException e) {
+            log.error(messageSource.getMessage("log.arquivo.nao.criado", new String[]{caminhoArquivoEscrita}, Locale.getDefault()));
+        }
 
     }
 }
